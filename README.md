@@ -113,14 +113,16 @@ Esta versión no necesita interactuar con el navegador ni analizar el DOM. En su
 ### 📊 Datos de ejemplo
 
 A diferencia de Selenium, aquí los datos **los defines tú** a partir de lo que ves en pantalla. Por ejemplo:
-
-```config.x_victory = 446 - config.screenshot_left```  
+```python
+config.x_victory = 446 - config.screenshot_left
+```  
 
 Este valor (`x_victory`) representa la posición horizontal (coordenada X) del píxel donde se muestra la **cara de victoria**. Se calcula en base al desplazamiento del área capturada.
 
 Otro ejemplo:
-
-```(255, 0, 0): 3``` 
+```python
+(255, 0, 0): 3
+``` 
 
 Esto indica que el color **rojo puro** `(255, 0, 0)` representa el número **3** en el tablero. Es una forma directa de identificar qué número aparece en una casilla.
 

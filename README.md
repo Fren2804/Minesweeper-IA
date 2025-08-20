@@ -142,33 +142,42 @@ Es una herramienta muy eficaz cuando se prioriza la **velocidad de ejecución** 
 
 ## 🧪 Detección de píxeles y extracción de datos
 
-En el apartado **source** se encuentran los distintos iconos que la página usa para representar cada elemento del tablero. Esto es muy útil para analizar los píxeles y decidir qué información buscar.
+En el apartado `sources` se encuentran los distintos iconos que la página usa para representar cada elemento del tablero. Esto es muy útil para analizar los píxeles y decidir qué información buscar.
 
 ![Iconos](Minesweeper/Icons.png)
 
-Una vez recopilados, el siguiente paso es analizar los elementos y dividirlos al máximo, con el objetivo de reducir comprobaciones y generalizar el proceso lo más posible.
+Una vez recopilados, el siguiente paso es **analizar los elementos y dividirlos al máximo**, con el objetivo de reducir comprobaciones y generalizar el proceso lo más posible.
 
-### Mi division
+---
 
-#### Al principio
+### ✂️ Mi división
 
-Recorté la imagen que me daba la página en cada cosa, y eso me funcionaba pero era un poco lento, me daba cuenta que no era todo lo rapido que yo queria e investigando descubrí que si buscaba pixeles en los que hubiese relacion podia optimizar la buscada ya que buscando un pixel 100 veces es mucho más rapido que 24x24 pixeles 100 veces.
+#### 🟨 Al principio
 
-Asi que la primera diferencia que hago es separar el tablero de minas y el cuadrado del smile.
+Al principio recortaba cada imagen directamente desde la página para comparar los patrones completos. Funcionaba, pero resultaba lento y poco eficiente.
+Investigando, descubrí que podía optimizar la búsqueda analizando solo píxeles clave y no imagenes, porque al final una imagen 24x24 son 576 pixeles cada vez.
 
-### Casillas
+La primera separación que hice fue distinguir entre:
 
-Las casillas en 150% ocupan 24 x 24 pixeles. Uso un pixel de arriba a la izquierda para averiguar si la casilla esta pulsada o no, uso el color blanco y el gris `(192, 192, 192)` para diferenciarlos
+- El tablero de minas
+- El cuadro del smile
+
+### 🔲 Casillas
+
+Con el zoom al **150%**, cada casilla ocupa **24×24 píxeles**.
+Uso un píxel de la esquina superior izquierda para saber si la casilla está pulsada o no. Para diferenciarlas me baso en el color blanco y el gris `(192, 192, 192)`.
 
 ![Squares](Minesweeper/Squares.png)
 
-#### Casilla seleccionada
+#### 🔢 Casilla seleccionada (números)
 
-Entre las casillas seleccionadas necesito obtener el número al que hace referencia entonces busqué que pixel podía usar para diferenciar los números. Viendo la foto hay una fila muy favorable donde casi todos los numeros tienen pixeles, entonces cogí los pixeles del 2 o del 7 ya que eran los más restrictivos.
+En las casillas seleccionadas necesito obtener el número que aparece.
+Analizando los patrones, encontré una fila muy favorable donde casi todos los números presentan píxeles característicos.
+De ahí seleccioné los píxeles del 2 o del 7, ya que son los más restrictivos.
 
 ![Numbers](Minesweeper/Numbers.png)
 
-Llegados a este punto ya puedo obtener los numeros, usando esta tabla de colores.
+A partir de este punto ya puedo mapear los números utilizando una tabla de colores RGB:
 
 ```python
 colors = {
@@ -184,22 +193,34 @@ colors = {
 }
 ```
 
-#### Casilla sin seleccionar
+#### 🚩 Casilla sin seleccionar
 
-En las casillas sin seleccionar tenemos dos casos sin bandera o con bandera, por lo que podemos elegir cualquier pixel del centro en el que exista una diferencia de color.
+En las casillas sin seleccionar hay dos casos posibles:
+- Vacía
+- Con bandera
+
+La diferencia se puede detectar fácilmente eligiendo un píxel del centro donde exista diferencia de color.
 
 ![BombFlagged](Minesweeper/Flagged.png)
 
 
-### Smile
+### 🙂 Smile
 
-En el smile tenemos 3 posibilidades jugando (contento), muerto (cara muerto), ganado (cara con gafas). Por lo que nos interesa pixeles que sean restrictivos. Lo primero que hago es comprobar si he ganado ya que es un caso y si es falso esa zona de pixeles es identica en las otras dos caras. Por lo que hay solo hay dos posibilidades, y la zona de la boca cuando esta muerto es la que seleccione.
+El smile tiene 3 posibles estados:
+
+- Jugando (cara contenta)
+- Derrota (cara muerta)
+- Victoria (cara con gafas)
+
+Para diferenciarlos seleccioné píxeles restrictivos.
+Primero verifico si se ha ganado la partida: si no, la zona de píxeles correspondiente es idéntica en los otros dos casos.
+Y la siguiente diferencia clave está en la boca de la cara muerta.
 
 ![Smiles](Minesweeper/Smiles.png)
 
-### Otras imagenes
+### 🖼️ Otras imágenes
 
-Aunque viendo los recursos existen más situaciones o sonrisas pero si vemos las minas significa que hemos perdido por lo que la sonrisa ha muerto, significa que nos da igual y las otras caras no nos aporta nada, ya que las unicas importantes es muerte y victoria el resto siguen el juego. Por eso es importante la zona de las caras y que en alguna situacion no pueda existe un pixel esencial en parte de esa sonrisa.
+Existen más iconos y variaciones de caras, pero no son relevantes. Por ejemplo, si aparecen minas, ya sabemos que la partida está perdida (cara muerta). Las demás expresiones intermedias no aportan información esencial, ya que lo importante es diferenciar muerte y victoria. Por eso, en este análisis lo fundamental es identificar los píxeles críticos de las caras que permitan distinguir el estado real de la partida.
 
 
 ```

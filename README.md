@@ -170,7 +170,7 @@ Entre las casillas seleccionadas necesito obtener el número al que hace referen
 
 Llegados a este punto ya puedo obtener los numeros, usando esta tabla de colores.
 
-```python
+``` python
 colors = {
     (192, 192, 192): 0,
     (0, 0, 255): 1,

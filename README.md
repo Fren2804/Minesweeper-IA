@@ -364,4 +364,4 @@ Lo importante es haber transmitido el **concepto general** y el enfoque utilizad
 
 ### 📊 Resultados obtenidos
 
-![Results](Minesweeper/Results.png)
+![Results](Minesweeper/Records.png)

@@ -350,9 +350,18 @@ La peor fase.
 Ocurre cuando un bloque queda completamente **aislado por minas** y no existe ninguna forma lógica de acceder a él.  
 En ese caso, no queda otra opción que hacer un **clic aleatorio** y esperar la suerte.  
 
-# Fin
+# 🏁 Fin
 
-Hay ciertos detalles que no explico, como que si mueres en algun momento empiezo de nuevo, la relacion de distintos tamaños, ciertos cosas minuciosas, lo importante es el concepto, que espero que haya quedado claro.
-Y esto fueron los resultados que obtuve.
+Hay ciertos detalles que no he explicado en profundidad, como por ejemplo:  
 
-![Blocks](Minesweeper/Results.png)
+- Si el bot muere en algún momento, automáticamente vuelve a empezar.  
+- La relación entre los distintos tamaños de tablero.  
+- Ajustes minuciosos y pequeños detalles de implementación.  
+
+Lo importante es haber transmitido el **concepto general** y el enfoque utilizado, que espero haya quedado claro.  
+
+---
+
+### 📊 Resultados obtenidos
+
+![Results](Minesweeper/Results.png)

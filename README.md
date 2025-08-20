@@ -44,11 +44,15 @@ Al inspeccionar el HTML del juego, es posible identificar con facilidad la infor
 
 - **Casilla en blanco**, sin descubrir. Podría contener una mina.  
   (x = 20, y = 8)  
-  ```<div class="square blank" id="8_20"></div>```
+  ```html
+  <div class="square blank" id="8_20"></div>
+  ```
 
 - **Casilla descubierta con el número 2**, lo que indica que hay dos minas alrededor.  
   (x = 16, y = 7)  
-  ```<div class="square open2" id="7_16"></div>```
+  ```html
+  <div class="square open2" id="7_16"></div>
+  ```
 
 ---
 

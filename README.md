@@ -84,18 +84,50 @@ También es posible detectar el **estado del juego** (en curso, ganado o perdido
 
 ## 🧪 Versión con PyAutoGUI (versión final)
 
-Esta versión no necesita nada en cambio, actua por screenshots, analizando los pixeles del screenshots y con los pixeles de tu pantalla. Y actua como si fueses tu.
+Esta versión no necesita interactuar con el navegador ni analizar el DOM. En su lugar, **actúa directamente sobre capturas de pantalla**, analizando los **píxeles** de la imagen y comparándolos con los píxeles de tu pantalla. El bot actúa como si fueras tú utilizando el ratón.
 
-Limitaciones
-- Aunque puede buscar imagenes y patrones y con cierta relacion de precision, cuanto más amplio seas mas lento es pero más flexibilidad tienes. Aunque si usa pixeles exacto, significa que si la página se desplaza un pixel ya no funciona.
-- Cuanto más preciso menos margen de error.
-- Para averiguar que pixel quieres o te interesa tienes que hacer un data mining de las imagenes pixeles, etc.  Para obtener la informacion que quieres.
+---
 
-Ventajas
-- Si usas pixeles exactos es superrápido.
-- Tienes mucho mas margen de optimización.
-- Al hacer clic no necesitas recargar nada.
+### ❌ Limitaciones
 
-Conclusion
-Aunque pyautogui no permite errores y hay que hacer pruebas manuales para avariguar los pixeles utiles, en este caso buscaba velocidad por lo que era lo
+- Aunque PyAutoGUI permite buscar **patrones visuales** o imágenes dentro de la pantalla, cuanto **más amplia** es la zona que analizas, **más lento** será el proceso.
+- Si usas **valores de píxeles exactos**, el sistema es muy rápido, pero pierde flexibilidad. Si la página se desplaza incluso **un solo píxel**, el bot puede dejar de funcionar.
+- Cuanta más **precisión** exijas, menor será el **margen de error** permitido.
+- Es necesario hacer una especie de **"data mining" manual** para identificar qué píxeles o colores te interesa capturar y qué significan. Es decir, tú defines tus propios datos a partir de la imagen.
+
+---
+
+### ✅ Ventajas
+
+- Usando coordenadas y colores de **píxeles exactos**, el bot es **extremadamente rápido**.
+- Permite un mayor **margen de optimización** que Selenium.
+- Al hacer clic, **no es necesario recargar la página** ni esperar ninguna transición.
+- En mis pruebas:
+  - El nivel **principiante** se resolvía en aproximadamente **1 segundo**.
+  - El nivel **intermedio** en unos **3 segundos**.
+  - El nivel **experto** en unos **10 segundos**.
+  - Estos tiempos son **muy superiores** a los que obtuve usando Selenium.
+
+---
+
+### 📊 Datos de ejemplo
+
+A diferencia de Selenium, aquí los datos **los defines tú** a partir de lo que ves en pantalla. Por ejemplo:
+
+`config.x_victory = 446 - config.screenshot_left`  
+Este valor (`x_victory`) representa la posición horizontal (coordenada X) del píxel donde se muestra la **cara de victoria**. Se calcula en base al desplazamiento del área capturada.
+
+Otro ejemplo:
+
+`(255, 0, 0): 3`  
+Esto indica que el color **rojo puro** `(255, 0, 0)` representa el número **3** en el tablero. Es una forma directa de identificar qué número aparece en una casilla.
+
+Como se puede ver, esta técnica requiere definir manualmente los valores relevantes, pero te da un **control total** sobre cómo interpretar la imagen.
+
+### 🧾 Conclusión
+
+Aunque **PyAutoGUI** no tolera errores y requiere realizar **pruebas manuales** para identificar los píxeles y extraer los datos útiles, ofrece un rendimiento **mucho más rápido** que otras soluciones como Selenium.
+
+Es una herramienta muy eficaz cuando se prioriza la **velocidad de ejecución** y el **control total** sobre el entorno, a cambio de una menor tolerancia a cambios visuales y más trabajo inicial de configuración.
+
 

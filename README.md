@@ -254,14 +254,24 @@ La información del tablero se almacena en una tabla de representación interna,
 ###########
 ```
 
-## Lógica
+## 🧩 Lógica
 
-Lo primero que hago es hacer clic en el centro para empezar la partida. Y que se habrán las casillas, a partir de ahí cargo los datos y analizamos.
+El proceso comienza haciendo clic en el **centro del tablero** para iniciar la partida y que se descubran las primeras casillas.  
+A partir de ahí, el bot **carga los datos** del tablero y empieza a analizarlos.
 
-### Fase 1 - EZ
+---
 
-Primera fase, la facil. Primero, busqueda de minas claras, por ejemplo si sale 2 y solo hay dos posibles minas pues las dos son minas seguras y pongo la X en ambas. O tengo un 3, 2 minas seguras y una posibilidad pues eso es una mina segura.
+### 🔹 Fase 1 — EZ (básica)
 
+La primera fase es la más **simple**: búsqueda de **minas evidentes**.  
+
+- Si aparece un **2** y solo hay dos casillas posibles alrededor, esas dos son **minas seguras** → se marcan con `X`.  
+- Si aparece un **3**, ya tengo detectadas 2 minas seguras y queda solo una opción libre, entonces esa última también se marca como mina.
+- Si aparece un **2**, ya tengo **2 minas marcadas** alrededor y quedan **2 espacios disponibles**, entonces esos espacios son **seguros** y el bot hace clic en ellos automáticamente.
+
+En esta fase se aplican únicamente **deducciones directas y obvias**, garantizando que no exista margen de error.  
+
+```
 ####
 #11#
 #-1#
@@ -272,16 +282,71 @@ Primera fase, la facil. Primero, busqueda de minas claras, por ejemplo si sale 2
 #121#
 #01X#
 #####
+```
 
-Y segundo, hacemos clic en los lugares seguros, si hay un 2 tres minas marcadas y 2 espacios disponibles pues hacemos clic en los espacios seguros. 
-```⚠️❗A partir de aquí creo que se puede hacer mejor, aunque a mi me funcione, creo que no es lo más optimo.```
+⚠️❗ **Nota:**  
+A partir de aquí, aunque mi implementación funciona, considero que se puede hacer **mucho mejor**.  
+El enfoque actual **no es el más óptimo**, simplemente es la solución que encontré para que el bot funcione correctamente. 
 
-### Fase 2 - Bloques
+### 🔹 Fase 2 — Bloques
 
-Segunda fase, a esta fase solo pasamos si no se realiza ningun cambio en la primera. Esta fase la llamo bloques. Q
+La segunda fase comienza **solo si no se realizan cambios en la Fase 1**.  
+A esta fase la llamo **“bloques”**.  
 
+👉 ¿Qué significa esto?  
+Se consideran **bloques** aquellas celdas que tienen **relación directa entre sí**. Es decir, cualquier modificación en una celda afecta de manera inmediata a otra a la que tenemos acceso.  
 
-  ![Blocks](Minesweeper/Blocks.png)
+- Una celda rodeada únicamente de minas y `-` no aporta información útil.  
+- En cambio, solo es relevante si alrededor (a una distancia de 1) existen **números visibles**.  
 
+En la siguiente imagen se muestran los bloques coloreados. En esta situación se podría seguir resolviendo en el bloque inferior, pero detuve la ejecución para mostrar el ejemplo:
 
-### Fase 3 - 💀 (Imperfecta)
+![Blocks](Minesweeper/Blocks.png)
+
+---
+
+#### 📝 Información importante en esta fase
+
+- No moverse en **diagonal**. Usando el orden (derecha → abajo ↓ izquierda ← arriba ↑) se alcanzan igualmente las diagonales si es necesario.  
+- No volver sobre nuestros pasos: si el orden es (derecha → abajo ↓ izquierda ← arriba ↑) y me moví a la izquierda, no vuelvo a la derecha.  
+- Cuidado con los **bucles**: puede que un bloque se cierre sobre si mismo.  
+- Si buscando por **filas** no se encuentra nada, probar buscando por **columnas**.  
+- Puede haber **más de un camino posible** dentro de un mismo bloque.  
+
+---
+
+### 🔹 Fase 3 — 💀 Imperfecta
+
+En la fase de **bloques** solo obtenemos **un bloque por proceso**.  
+Una vez que tenemos uno, pasamos a analizar **situaciones hipotéticas**:
+
+- ¿Qué sucede si pongo una bandera en la primera posición?  
+- ¿Y en la segunda?  
+- ¿Y en la tercera?  
+
+Con estas pruebas se generan tres posibles resultados:
+
+- **Bandera imposible** → Situación ideal, significa que esa casilla **100% no puede ser una mina**, por lo tanto es segura.  
+- **Solución válida** → Es una posible solución, pero **no garantiza ser la correcta**, ya que en otros escenarios alternativos podría no coincidir.
+- **Información pobre** → Situación en la que nos da alguna bomba y zona segura, pero no significa nada. 
+
+En mi implementación actual, **tomo las soluciones válidas como correctas**, aunque en realidad no siempre lo son. Aquí entramos en el terreno de la **aleatoriedad** y de las **limitaciones del algoritmo**.
+
+---
+
+#### 📝 Opciones de solución
+
+- Buscar otro **bloque relacionado** que permita resolver la situación desde un camino distinto.  
+- Guardar todas las celdas analizadas y calcular las **probabilidades** de que cada una sea mina o segura, seleccionando solo las que tengan certeza de seguridad.  
+- Usar **patrones específicos** ya conocidos en Buscaminas (ejemplo: formaciones clásicas de 1-2-1 o 1-2-2-1).  
+
+En esta fase **no existe nada 100% seguro**, y se entra en una situación **pseudo-aleatoria**.
+
+---
+
+### 🔹 Fase 4 — ☠️ Muerte aleatoria
+
+La peor fase.  
+Ocurre cuando un bloque queda completamente **aislado por minas** y no existe ninguna forma lógica de acceder a él.  
+En ese caso, no queda otra opción que hacer un **clic aleatorio** y esperar la suerte.  
+

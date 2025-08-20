@@ -150,7 +150,11 @@ Una vez obtenido vamos a analizar los elementos y dividirlos. Lo máximo posible
 
 ### Mi division
 
-La primera diferencia que hago es separar el tablero de minas y el cuadrado del smile.
+#### Al principio
+
+Recorté la imagen que me daba la página en cada cosa, y eso me funcionaba pero era un poco lento, me daba cuenta que no era todo lo rapido que yo queria e investigando descubrí que si buscaba pixeles en los que hubiese relacion podia optimizar la buscada ya que buscando un pixel 100 veces es mucho más rapido que 24x24 pixeles 100 veces.
+
+Asi que la primera diferencia que hago es separar el tablero de minas y el cuadrado del smile.
 
 ### Casillas
 
@@ -160,7 +164,9 @@ Las casillas en 150% ocupan 24 x 24 pixeles. Uso un pixel de arriba a la izquier
 
 #### Casilla seleccionada
 
-Entre las casillas seleccionadas necesito obtener 
+Entre las casillas seleccionadas necesito obtener el número al que hace referencia entonces busqué que pixel podía usar para diferenciar los números.
+
+![Numbers](Minesweeper/Numbers.png)
 
 #### Casilla sin seleccionar
 

@@ -258,7 +258,7 @@ La información del tablero se almacena en una tabla de representación interna,
 
 Lo primero que hago es hacer clic en el centro para empezar la partida. Y que se habrán las casillas, a partir de ahí cargo los datos y analizamos.
 
-### Fase 1
+### Fase 1 - EZ
 
 Primera fase, la facil. Primero, busqueda de minas claras, por ejemplo si sale 2 y solo hay dos posibles minas pues las dos son minas seguras y pongo la X en ambas. O tengo un 3, 2 minas seguras y una posibilidad pues eso es una mina segura.
 
@@ -276,12 +276,12 @@ Primera fase, la facil. Primero, busqueda de minas claras, por ejemplo si sale 2
 Y segundo, hacemos clic en los lugares seguros, si hay un 2 tres minas marcadas y 2 espacios disponibles pues hacemos clic en los espacios seguros. 
 ```⚠️❗A partir de aquí creo que se puede hacer mejor, aunque a mi me funcione, creo que no es lo más optimo.```
 
-### Fase 2
+### Fase 2 - Bloques
 
-Segunda fase, a esta fase solo pasamos si no se realiza ningun cambio en la primera. Esta fase la llamo bloques.
+Segunda fase, a esta fase solo pasamos si no se realiza ningun cambio en la primera. Esta fase la llamo bloques. Q
 
 
   ![Blocks](Minesweeper/Blocks.png)
 
 
-### Fase 3 - Muerte aleatoria (Imperfecta)
+### Fase 3 - 💀 (Imperfecta)

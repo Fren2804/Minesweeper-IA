@@ -220,8 +220,25 @@ Y la siguiente diferencia clave está en la boca de la cara muerta.
 
 ### 🖼️ Otras imágenes
 
-Existen más iconos y variaciones de caras, pero no son relevantes. Por ejemplo, si aparecen minas, ya sabemos que la partida está perdida (cara muerta). Las demás expresiones intermedias no aportan información esencial, ya que lo importante es diferenciar muerte y victoria. Por eso, en este análisis lo fundamental es identificar los píxeles críticos de las caras que permitan distinguir el estado real de la partida.
+Existen más iconos y variaciones de caras, pero no son relevantes. Por ejemplo, si aparecen minas, ya sabemos que la partida está perdida (cara muerta). 
+Las demás expresiones intermedias no aportan información esencial, ya que lo importante es diferenciar muerte y victoria. Por eso, en este análisis lo fundamental es identificar los píxeles críticos de las caras que permitan distinguir el estado real de la partida.
 
+### ⚙️ Configuración
+
+En la configuración se definen los parámetros necesarios para que el bot pueda funcionar correctamente, entre ellos:
+- Steps entre casillas, muy útiles para trabajar con posiciones relativas en lugar de coordenadas absolutas.
+- La posición de todos los píxeles críticos, que permiten identificar estados clave del tablero.
+- La cantidad de filas y columnas en función de la dificultad seleccionada (principiante, intermedio o experto).
+- Los colores de referencia, usados para diferenciar casillas, números y banderas.
+
+### 💾 Guardado de datos
+
+La información del tablero se almacena en una tabla de representación interna, donde cada símbolo indica un estado:
+
+- X → Mina.
+- - → Casilla en blanco o desconocida.
+- Número (1–8) → Cantidad de minas alrededor de la casilla.
+- ? → Desconocido, este símbolo se usa de forma interna cuando se hace clic en una casilla y aún no se han cargado los datos.
 
 ```
 ###########

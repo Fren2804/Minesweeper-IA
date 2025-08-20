@@ -146,6 +146,42 @@ En el apartado de source tenemos los distintos iconos que usa la página para ca
 
 ![Iconos](Minesweeper/Icons.png)
 
+Una vez obtenido vamos a analizar los elementos y dividirlos. Lo máximo posible para hacer las minimas comprobaciones e intentar generalizarlo lo maximo posible.
+
+### Mi division
+
+La primera diferencia que hago es separar el tablero de minas y el cuadrado del smile.
+
+### Casillas
+
+Las casillas en 150% ocupan 24 x 24 pixeles. Uso un pixel de arriba a la izquierda para averiguar si la casilla esta pulsada o no, uso el color blanco y el gris `(192, 192, 192)` para diferenciarlos
+
+![Squares](Minesweeper/Squares.png)
+
+#### Casilla seleccionada
+
+Entre las casillas seleccionadas necesito obtener 
+
+#### Casilla sin seleccionar
 
 
 
+
+
+### Smile
+
+
+
+```
+###########
+#11001X100#
+#X10011100#
+#110000000#
+#011100000#
+#12X101110#
+#--2101X10#
+#--1001221#
+#--11111X2#
+#--11X112X#
+###########
+```

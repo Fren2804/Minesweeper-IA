@@ -236,7 +236,7 @@ En la configuración se definen los parámetros necesarios para que el bot pueda
 La información del tablero se almacena en una tabla de representación interna, donde cada símbolo indica un estado:
 
 - X → Mina.
-- - → Casilla en blanco o desconocida.
+- '-' → Casilla en blanco o desconocida.
 - Número (1–8) → Cantidad de minas alrededor de la casilla.
 - ? → Desconocido, este símbolo se usa de forma interna cuando se hace clic en una casilla y aún no se han cargado los datos.
 

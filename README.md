@@ -138,4 +138,14 @@ Aunque **PyAutoGUI** no tolera errores y requiere realizar **pruebas manuales** 
 
 Es una herramienta muy eficaz cuando se prioriza la **velocidad de ejecución** y el **control total** sobre el entorno, a cambio de una menor tolerancia a cambios visuales y más trabajo inicial de configuración.
 
+---
+
+## 🧪 Detección de píxeles y extracción de datos
+
+En el apartado de source tenemos los distintos iconos que usa la página para cada elemento. Muy útil para analizar los pixeles y saber que informacion buscar.
+
+![Iconos](Minesweeper/Icons.png)
+
+
+
 

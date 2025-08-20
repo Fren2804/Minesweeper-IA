@@ -44,11 +44,11 @@ Al inspeccionar el HTML del juego, es posible identificar con facilidad la infor
 
 - **Casilla en blanco**, sin descubrir. Podría contener una mina.  
   (x = 20, y = 8)  
-  `<div class="square blank" id="8_20"></div>`
+  ```<div class="square blank" id="8_20"></div>```
 
 - **Casilla descubierta con el número 2**, lo que indica que hay dos minas alrededor.  
   (x = 16, y = 7)  
-  `<div class="square open2" id="7_16"></div>`
+  ```<div class="square open2" id="7_16"></div>```
 
 ---
 
@@ -57,7 +57,7 @@ Al inspeccionar el HTML del juego, es posible identificar con facilidad la infor
 También es posible detectar el **estado del juego** (en curso, ganado o perdido) a través de un elemento del DOM con identificador `"face"` y una clase que cambia dinámicamente:
 
 - Si la clase es `"facesmile"`, significa que la partida **sigue activa**.  
-  `<div class="facesmile" style="margin-left:182px; margin-right: 182px;" id="face"></div>`
+  ```<div class="facesmile" style="margin-left:182px; margin-right: 182px;" id="face"></div>```
 
 ---
 
@@ -114,12 +114,14 @@ Esta versión no necesita interactuar con el navegador ni analizar el DOM. En su
 
 A diferencia de Selenium, aquí los datos **los defines tú** a partir de lo que ves en pantalla. Por ejemplo:
 
-`config.x_victory = 446 - config.screenshot_left`  
+```config.x_victory = 446 - config.screenshot_left```  
+
 Este valor (`x_victory`) representa la posición horizontal (coordenada X) del píxel donde se muestra la **cara de victoria**. Se calcula en base al desplazamiento del área capturada.
 
 Otro ejemplo:
 
-`(255, 0, 0): 3`  
+```(255, 0, 0): 3``` 
+
 Esto indica que el color **rojo puro** `(255, 0, 0)` representa el número **3** en el tablero. Es una forma directa de identificar qué número aparece en una casilla.
 
 Como se puede ver, esta técnica requiere definir manualmente los valores relevantes, pero te da un **control total** sobre cómo interpretar la imagen.

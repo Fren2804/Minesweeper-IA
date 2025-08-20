@@ -164,9 +164,25 @@ Las casillas en 150% ocupan 24 x 24 pixeles. Uso un pixel de arriba a la izquier
 
 #### Casilla seleccionada
 
-Entre las casillas seleccionadas necesito obtener el número al que hace referencia entonces busqué que pixel podía usar para diferenciar los números.
+Entre las casillas seleccionadas necesito obtener el número al que hace referencia entonces busqué que pixel podía usar para diferenciar los números. Viendo la foto hay una fila muy favorable donde casi todos los numeros tienen pixeles, entonces cogí los pixeles del 2 o del 7 ya que eran los más restrictivos.
 
 ![Numbers](Minesweeper/Numbers.png)
+
+Llegados a este punto ya puedo obtener los numeros, usando esta tabla de colores.
+
+```python
+colors = {
+    (192, 192, 192): 0,
+    (0, 0, 255): 1,
+    (0, 128, 0): 2,
+    (255, 0, 0): 3,
+    (0, 0, 128): 4,
+    (128, 0, 0): 5,
+    (0, 128, 128): 6,
+    (0, 0, 0): 7,
+    (128, 128, 128): 8,
+}
+```
 
 #### Casilla sin seleccionar
 

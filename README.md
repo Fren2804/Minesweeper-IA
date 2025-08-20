@@ -142,11 +142,11 @@ Es una herramienta muy eficaz cuando se prioriza la **velocidad de ejecución** 
 
 ## 🧪 Detección de píxeles y extracción de datos
 
-En el apartado de source tenemos los distintos iconos que usa la página para cada elemento. Muy útil para analizar los pixeles y saber que informacion buscar.
+En el apartado **source** se encuentran los distintos iconos que la página usa para representar cada elemento del tablero. Esto es muy útil para analizar los píxeles y decidir qué información buscar.
 
 ![Iconos](Minesweeper/Icons.png)
 
-Una vez obtenido vamos a analizar los elementos y dividirlos. Lo máximo posible para hacer las minimas comprobaciones e intentar generalizarlo lo maximo posible.
+Una vez recopilados, el siguiente paso es analizar los elementos y dividirlos al máximo, con el objetivo de reducir comprobaciones y generalizar el proceso lo más posible.
 
 ### Mi division
 
@@ -170,7 +170,7 @@ Entre las casillas seleccionadas necesito obtener el número al que hace referen
 
 Llegados a este punto ya puedo obtener los numeros, usando esta tabla de colores.
 
-``` python
+```python
 colors = {
     (192, 192, 192): 0,
     (0, 0, 255): 1,
@@ -186,12 +186,20 @@ colors = {
 
 #### Casilla sin seleccionar
 
+En las casillas sin seleccionar tenemos dos casos sin bandera o con bandera, por lo que podemos elegir cualquier pixel del centro en el que exista una diferencia de color.
 
-
+![BombFlagged](Minesweeper/Flagged.png)
 
 
 ### Smile
 
+En el smile tenemos 3 posibilidades jugando (contento), muerto (cara muerto), ganado (cara con gafas). Por lo que nos interesa pixeles que sean restrictivos. Lo primero que hago es comprobar si he ganado ya que es un caso y si es falso esa zona de pixeles es identica en las otras dos caras. Por lo que hay solo hay dos posibilidades, y la zona de la boca cuando esta muerto es la que seleccione.
+
+![Smiles](Minesweeper/Smiles.png)
+
+### Otras imagenes
+
+Aunque viendo los recursos existen más situaciones o sonrisas pero si vemos las minas significa que hemos perdido por lo que la sonrisa ha muerto, significa que nos da igual y las otras caras no nos aporta nada, ya que las unicas importantes es muerte y victoria el resto siguen el juego. Por eso es importante la zona de las caras y que en alguna situacion no pueda existe un pixel esencial en parte de esa sonrisa.
 
 
 ```

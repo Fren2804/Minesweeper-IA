@@ -350,3 +350,9 @@ La peor fase.
 Ocurre cuando un bloque queda completamente **aislado por minas** y no existe ninguna forma lógica de acceder a él.  
 En ese caso, no queda otra opción que hacer un **clic aleatorio** y esperar la suerte.  
 
+# Fin
+
+Hay ciertos detalles que no explico, como que si mueres en algun momento empiezo de nuevo, la relacion de distintos tamaños, ciertos cosas minuciosas, lo importante es el concepto, que espero que haya quedado claro.
+Y esto fueron los resultados que obtuve.
+
+![Blocks](Minesweeper/Results.png)

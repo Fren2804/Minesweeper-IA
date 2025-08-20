@@ -65,14 +65,20 @@ También es posible detectar el **estado del juego** (en curso, ganado o perdido
 
 | Clase              | Significado                             |
 |-------------------|------------------------------------------|
-| `square blank`     | Casilla no descubierta (posible mina)    |
-| `square open0`     | Casilla descubierta, 0 minas alrededor   |
-| `square open1`     | Casilla descubierta, 1 mina alrededor    |
-| `square open2`     | Casilla descubierta, 2 minas alrededor   |
-| `square bombdeath` | Casilla donde explotó una mina           |
-| `facesmile`        | Partida en curso                         |
-| `facewin`          | Has ganado                               |
-| `facedead`         | Has perdido                              |
+| `square blank`       | Casilla no descubierta (posible mina)    |
+| `square open0`       | Casilla descubierta, 0 minas alrededor   |
+| `square open1`       | Casilla descubierta, 1 mina alrededor    |
+| `square open2`       | Casilla descubierta, 2 minas alrededor   |
+| `square open3`       | Casilla descubierta, 3 minas alrededor   |
+| `square open4`       | Casilla descubierta, 4 minas alrededor   |
+| `square open5`       | Casilla descubierta, 5 minas alrededor   |
+| `square open6`       | Casilla descubierta, 6 minas alrededor   |
+| `square open7`       | Casilla descubierta, 7 minas alrededor   |
+| `square open8`       | Casilla descubierta, 8 minas alrededor   |
+| `square bombflagged` | Casilla marcada con posible bomba           |
+| `facesmile`          | Partida en curso                         |
+| `facewin`            | Has ganado                               |
+| `facedead`           | Has perdido                              |
 
 
 

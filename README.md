@@ -237,7 +237,7 @@ La información del tablero se almacena en una tabla de representación interna,
 
 - X → Mina.
 - '-' → Casilla en blanco o desconocida.
-- Número (1–8) → Cantidad de minas alrededor de la casilla.
+- Número (0–8) → Cantidad de minas alrededor de la casilla.
 - ? → Desconocido, este símbolo se usa de forma interna cuando se hace clic en una casilla y aún no se han cargado los datos.
 
 ```
@@ -253,3 +253,35 @@ La información del tablero se almacena en una tabla de representación interna,
 #--11X112X#
 ###########
 ```
+
+## Lógica
+
+Lo primero que hago es hacer clic en el centro para empezar la partida. Y que se habrán las casillas, a partir de ahí cargo los datos y analizamos.
+
+### Fase 1
+
+Primera fase, la facil. Primero, busqueda de minas claras, por ejemplo si sale 2 y solo hay dos posibles minas pues las dos son minas seguras y pongo la X en ambas. O tengo un 3, 2 minas seguras y una posibilidad pues eso es una mina segura.
+
+####
+#11#
+#-1#
+####
+#####
+#---#
+#-21#
+#121#
+#01X#
+#####
+
+Y segundo, hacemos clic en los lugares seguros, si hay un 2 tres minas marcadas y 2 espacios disponibles pues hacemos clic en los espacios seguros. 
+```⚠️❗A partir de aquí creo que se puede hacer mejor, aunque a mi me funcione, creo que no es lo más optimo.```
+
+### Fase 2
+
+Segunda fase, a esta fase solo pasamos si no se realiza ningun cambio en la primera. Esta fase la llamo bloques.
+
+
+  ![Blocks](Minesweeper/Blocks.png)
+
+
+### Fase 3 - Muerte aleatoria (Imperfecta)

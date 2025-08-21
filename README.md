@@ -331,8 +331,6 @@ Here we enter the territory of **randomness** and **algorithmic limitations**.
 
 In this phase, **nothing is 100% certain**, and the process becomes **pseudo-random**.  
 
----
-
 ### 🔹 Phase 4 — ☠️ Random Death
 
 The worst phase.  

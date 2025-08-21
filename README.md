@@ -17,8 +17,7 @@ I started developing the bot with Selenium. I managed to complete the first phas
 
 ## 🧪 Selenium Version
 
-This version requires a **Chrome driver**. When running the program, a browser window opens with a message indicating that it is being automated.  
-This can be an issue on websites that block automation, and it’s something to keep in mind for future projects.  
+This version requires a **Chrome driver**. When running the program, a browser window opens with a message indicating that it is being automated. This can be an issue on websites that block automation, and it’s something to keep in mind for future projects.  
 
 ### ❌ Limitations
 
@@ -119,15 +118,11 @@ Another example:
 (255, 0, 0): 3
 ``` 
 
-This indicates that the pure **red color** `(255, 0, 0)` represents the number **3** on the board. It is a straightforward way to identify which number appears in a cell, based on the color of a pixel.  
-
-As you can see, this technique requires manually defining the relevant values, but it gives you **full control** over how to interpret the image. You can use the `show` function to view the screenshot or save it and use a simple tool like Paint to measure and obtain the distances of the most relevant pixels.  
+This indicates that the pure **red color** `(255, 0, 0)` represents the number **3** on the board. It is a straightforward way to identify which number appears in a cell, based on the color of a pixel. As you can see, this technique requires manually defining the relevant values, but it gives you **full control** over how to interpret the image. You can use the `show` function to view the screenshot or save it and use a simple tool like Paint to measure and obtain the distances of the most relevant pixels.  
 
 ### 🧾 Conclusion
 
-Although **PyAutoGUI** is not error-tolerant and requires **manual testing** to identify pixels and extract useful data, it offers **much faster performance** than Selenium.  
-
-It is a very effective tool when **execution speed** and **full control** over the environment are the priority, at the cost of less tolerance to visual changes and more initial setup work.  
+Although **PyAutoGUI** is not error-tolerant and requires **manual testing** to identify pixels and extract useful data, it offers **much faster performance** than Selenium.  It is a very effective tool when **execution speed** and **full control** over the environment are the priority, at the cost of less tolerance to visual changes and more initial setup work.  
 
 ---
 
@@ -141,8 +136,7 @@ Once collected, the next step is to **analyze the elements and break them down a
 
 ### 🟨 In the Beginning
 
-I used to crop each image directly from the screenshot provided by the page to compare the complete patterns. It worked, but it was slow and inefficient.  
-After some research, I discovered that I could optimize the search by analyzing only **key pixels** instead of full images — since a 24×24 image means 576 pixels to check each time.  
+I used to crop each image directly from the screenshot provided by the page to compare the complete patterns. It worked, but it was slow and inefficient. After some research, I discovered that I could optimize the search by analyzing only **key pixels** instead of full images — since a 24×24 image means 576 pixels to check each time.  
 
 ### ✂️ My Breakdown
 
@@ -153,16 +147,13 @@ The first separation I made was to distinguish between:
 
 ### 🔲 Cells
 
-With **150% zoom**, each cell takes up **24×24 pixels**.  
-I use a pixel from the **top-left corner** to know whether the cell is pressed or not. To differentiate them, I rely on the white and gray colors `(192, 192, 192)`.  
+With **150% zoom**, each cell takes up **24×24 pixels**. I use a pixel from the **top-left corner** to know whether the cell is pressed or not. To differentiate them, I rely on the white and gray colors `(192, 192, 192)`.  
 
 ![Squares](Minesweeper/Squares.png)
 
 #### 🔢 Selected Cell (Numbers)
 
-For selected cells, I need to obtain the number that appears.  
-By analyzing the patterns, I found a very favorable row where almost all numbers have characteristic pixels.  
-From there, I selected the pixels of **2** and **7**, since they are the most restrictive.  
+For selected cells, I need to obtain the number that appears. By analyzing the patterns, I found a very favorable row where almost all numbers have characteristic pixels. From there, I selected the pixels of **2** and **7**, since they are the most restrictive.  
 
 ![Numbers](Minesweeper/Numbers.png)
 
@@ -200,17 +191,13 @@ The smiley face has 3 possible states:
 - Defeat (dead face)  
 - Victory (face with sunglasses)  
 
-To distinguish them, I selected restrictive pixels.  
-First, I check whether the game has been won, since in the other two cases the corresponding pixel area is identical.  
-The next difference is found in the mouth of the dead face.  
+To distinguish them, I selected restrictive pixels. First, I check whether the game has been won, since in the other two cases the corresponding pixel area is identical. The next difference is found in the mouth of the dead face.  
 
 ![Smiles](Minesweeper/Smiles.png)  
 
 ### 🖼️ Other Images
 
-There are more icons and face variations, but they are not relevant. For example, if mines are revealed, we already know the game is lost (dead face).  
-Other intermediate expressions do not provide essential information, since the important part is distinguishing **loss** and **victory**.  
-That’s why, in this analysis, the main goal is to identify the **critical pixels** of the faces that allow us to determine the actual game state.  
+There are more icons and face variations, but they are not relevant. For example, if mines are revealed, we already know the game is lost (dead face). Other intermediate expressions do not provide essential information, since the important part is distinguishing **loss** and **victory**. That’s why, in this analysis, the main goal is to identify the **critical pixels** of the faces that allow us to determine the actual game state.  
 
 ---
 
@@ -251,8 +238,7 @@ The board information is stored in an **internal representation table**, where e
 
 ## 🧩 Logic
 
-The process begins by clicking on the **center of the board** to start the game and reveal the first cells.  
-From there, the bot **loads the board data** and begins analyzing it.  
+The process begins by clicking on the **center of the board** to start the game and reveal the first cells. From there, the bot **loads the board data** and begins analyzing it.  
 
 ### 🔹 Phase 1 — EZ (Basic)
 
@@ -278,13 +264,11 @@ In this phase, I only apply **direct and obvious deductions**, ensuring there is
 ```
 
 ⚠️❗ **Note:**  
-From this point onward, although my implementation works, I believe it could be done **much better**.  
-The current approach is **not the most optimal** — it is simply the solution I found to make the bot work correctly.  
+From this point onward, although my implementation works, I believe it could be done **much better**. The current approach is **not the most optimal** — it is simply the solution I found to make the bot work correctly.  
 
 ### 🔹 Phase 2 — Blocks
 
-The second phase begins **only if no changes are made in Phase 1**.  
-I call this phase **“blocks”**.  
+The second phase begins **only if no changes are made in Phase 1**. I call this phase **“blocks”**.  
 
 👉 What does this mean?  
 **Blocks** are considered to be cells that have a **direct relationship with each other**. In other words, any modification in one cell immediately affects another that we have access to.  
@@ -292,8 +276,7 @@ I call this phase **“blocks”**.
 - A cell surrounded only by mines and `-` provides no useful information.  
 - On the other hand, it is only relevant if there are **visible numbers** around it (within a distance of 1).  
 
-In the following image, the blocks are shown in color.  
-In this situation, it would be possible to continue solving in the lower block, but I stopped the execution to show the example:  
+In the following image, the blocks are shown in color. In this situation, it would be possible to continue solving in the lower block, but I stopped the execution to show the example:  
 
 ![Blocks](Minesweeper/Blocks.png)  
 
@@ -307,8 +290,7 @@ In this situation, it would be possible to continue solving in the lower block, 
 
 ### 🔹 Phase 3 — 💀 Imperfect
 
-In the **blocks** phase, we only obtain **one block per process**.  
-Once we have one, we move on to analyzing **hypothetical situations**:  
+In the **blocks** phase, we only obtain **one block per process**. Once we have one, we move on to analyzing **hypothetical situations**:  
 
 - What happens if I place a flag in the first position?  
 - What about the second one?  
@@ -320,8 +302,7 @@ From these tests, three possible outcomes are generated:
 - **Valid solution** → A possible solution, but it does **not guarantee correctness**, since in other alternative scenarios it may not hold true.  
 - **Poor information** → A situation where we get some bombs and safe zones, but they don’t mean anything conclusive.  
 
-In my current implementation, I **take valid solutions as correct**, even though they are not always so.  
-Here we enter the territory of **randomness** and **algorithmic limitations**.  
+In my current implementation, I **take valid solutions as correct**, even though they are not always so. Here we enter the territory of **randomness** and **algorithmic limitations**.  
 
 #### 📝 Solution Options
 
@@ -333,9 +314,7 @@ In this phase, **nothing is 100% certain**, and the process becomes **pseudo-ran
 
 ### 🔹 Phase 4 — ☠️ Random Death
 
-The worst phase.  
-It happens when a block is completely **isolated by mines**, and there is no logical way to access it.  
-In that case, the only option is to make a **random click** and hope for survival.  
+The worst phase. It happens when a block is completely **isolated by mines**, and there is no logical way to access it. In that case, the only option is to make a **random click** and hope for survival.  
 
 ---
 

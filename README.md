@@ -334,7 +334,7 @@ En ese caso, no queda otra opción que hacer un **clic aleatorio** y esperar la 
 
 ---
 
-# 🏁 Fin
+## 🏁 Fin
 
 Hay ciertos detalles que no he explicado en profundidad, como por ejemplo:  
 
@@ -347,6 +347,6 @@ Lo importante es haber transmitido el **concepto general** y el enfoque utilizad
 
 ---
 
-### 📊 Resultados obtenidos
+## 📊 Resultados obtenidos
 
 ![Results](Minesweeper/Records.png)

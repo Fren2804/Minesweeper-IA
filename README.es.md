@@ -7,7 +7,7 @@
 Este proyecto consiste en crear un bot para jugar automáticamente al clásico juego del **Buscaminas**. Existen **dos versiones del programa**:
 
 - Una versión **completa y funcional**, ubicada en el directorio principal, que utiliza la biblioteca **PyAutoGUI**.
-- Una versión **incompleta**, ubicada en un subdirectorio, que fue desarrollada inicialmente con **Selenium**.
+- Una versión **incompleta**, ubicada en un subdirectorio, que fue desarrollada con la biblioteca **Selenium**.
 
 ## 🚀 Motivación y evolución
 

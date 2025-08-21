@@ -82,9 +82,7 @@ También es posible detectar el **estado del juego** (en curso, ganado o perdido
 
 ## 🧪 Versión con PyAutoGUI (versión final)
 
-Esta versión no necesita interactuar con el navegador ni analizar el DOM. En su lugar, **actúa directamente sobre capturas de pantalla**, analizando los **píxeles** de la imagen y comparándolos con los píxeles de tu pantalla. El bot actúa como si fueras tú utilizando el ratón.
-
----
+Esta versión no necesita interactuar con el navegador ni analizar el DOM. En su lugar, **actúa directamente sobre capturas de pantalla** y analizando los **píxeles** de la imagen o interactuando con los píxeles de tu pantalla. El bot actúa como si fuera un usuario.
 
 ### ❌ Limitaciones
 
@@ -92,8 +90,6 @@ Esta versión no necesita interactuar con el navegador ni analizar el DOM. En su
 - Si usas **valores de píxeles exactos**, el sistema es muy rápido, pero pierde flexibilidad. Si la página se desplaza incluso **un solo píxel**, el bot puede dejar de funcionar.
 - Cuanta más **precisión** exijas, menor será el **margen de error** permitido.
 - Es necesario hacer una especie de **"data mining" manual** para identificar qué píxeles o colores te interesa capturar y qué significan. Es decir, tú defines tus propios datos a partir de la imagen.
-
----
 
 ### ✅ Ventajas
 
@@ -106,8 +102,6 @@ Esta versión no necesita interactuar con el navegador ni analizar el DOM. En su
   - El nivel **experto** en unos **10 segundos**.
   - Estos tiempos son **muy superiores** a los que obtuve usando Selenium.
 
----
-
 ### 📊 Datos de ejemplo
 
 A diferencia de Selenium, aquí los datos **los defines tú** a partir de lo que ves en pantalla. Por ejemplo:
@@ -115,20 +109,20 @@ A diferencia de Selenium, aquí los datos **los defines tú** a partir de lo que
 config.x_victory = 446 - config.screenshot_left
 ```  
 
-Este valor (`x_victory`) representa la posición horizontal (coordenada X) del píxel donde se muestra la **cara de victoria**. Se calcula en base al desplazamiento del área capturada.
+Este valor (`x_victory`) representa la posición horizontal (coordenada X) del píxel donde se muestra la **cara de victoria**. Lo calculada en base al desplazamiento del área capturada.
 
 Otro ejemplo:
 ```python
 (255, 0, 0): 3
 ``` 
 
-Esto indica que el color **rojo puro** `(255, 0, 0)` representa el número **3** en el tablero. Es una forma directa de identificar qué número aparece en una casilla.
+Esto indica que el color **rojo puro** `(255, 0, 0)` representa el número **3** en el tablero. Es una forma directa de identificar qué número aparece en una casilla, a raíz del color de un pixel.
 
-Como se puede ver, esta técnica requiere definir manualmente los valores relevantes, pero te da un **control total** sobre cómo interpretar la imagen.
+Como se puede ver, esta técnica requiere definir manualmente los valores relevantes, pero te da un **control total** sobre cómo interpretar la imagen. Puedes usar la función `show` para ver la captura o guardarla y usar el propio paint para medir y obtener las distancias de los pixeles más relevantes.
 
 ### 🧾 Conclusión
 
-Aunque **PyAutoGUI** no tolera errores y requiere realizar **pruebas manuales** para identificar los píxeles y extraer los datos útiles, ofrece un rendimiento **mucho más rápido** que otras soluciones como Selenium.
+Aunque **PyAutoGUI** no tolera errores y requiere realizar **pruebas manuales** para identificar los píxeles y extraer los datos útiles, ofrece un rendimiento **mucho más rápido** que Selenium.
 
 Es una herramienta muy eficaz cuando se prioriza la **velocidad de ejecución** y el **control total** sobre el entorno, a cambio de una menor tolerancia a cambios visuales y más trabajo inicial de configuración.
 
@@ -142,14 +136,12 @@ En el apartado `sources` se encuentran los distintos iconos que la página usa p
 
 Una vez recopilados, el siguiente paso es **analizar los elementos y dividirlos al máximo**, con el objetivo de reducir comprobaciones y generalizar el proceso lo más posible.
 
----
+### 🟨 Al principio
+
+Recortaba cada imagen directamente desde la imagen que me daba la página para comparar los patrones completos. Funcionaba, pero resultaba lento y poco eficiente.
+Investigando, descubrí que podía optimizar la búsqueda analizando solo píxeles clave y no imagenes, porque al final una imagen 24x24 son 576 pixeles cada vez.
 
 ### ✂️ Mi división
-
-#### 🟨 Al principio
-
-Al principio recortaba cada imagen directamente desde la página para comparar los patrones completos. Funcionaba, pero resultaba lento y poco eficiente.
-Investigando, descubrí que podía optimizar la búsqueda analizando solo píxeles clave y no imagenes, porque al final una imagen 24x24 son 576 pixeles cada vez.
 
 La primera separación que hice fue distinguir entre:
 
@@ -207,8 +199,8 @@ El smile tiene 3 posibles estados:
 - Victoria (cara con gafas)
 
 Para diferenciarlos seleccioné píxeles restrictivos.
-Primero verifico si se ha ganado la partida: si no, la zona de píxeles correspondiente es idéntica en los otros dos casos.
-Y la siguiente diferencia clave está en la boca de la cara muerta.
+Primero verifico si se ha ganado la partida. Ya que en los otros dos casos la zona de píxeles correspondiente es idéntica.
+Y la siguiente diferencia está en la boca de la cara muerta.
 
 ![Smiles](Minesweeper/Smiles.png)
 
@@ -217,17 +209,21 @@ Y la siguiente diferencia clave está en la boca de la cara muerta.
 Existen más iconos y variaciones de caras, pero no son relevantes. Por ejemplo, si aparecen minas, ya sabemos que la partida está perdida (cara muerta). 
 Las demás expresiones intermedias no aportan información esencial, ya que lo importante es diferenciar muerte y victoria. Por eso, en este análisis lo fundamental es identificar los píxeles críticos de las caras que permitan distinguir el estado real de la partida.
 
+---
+
 ### ⚙️ Configuración
 
-En la configuración se definen los parámetros necesarios para que el bot pueda funcionar correctamente, entre ellos:
+En la configuración defino los parámetros necesarios para que el bot pueda funcionar correctamente:
 - Steps entre casillas, muy útiles para trabajar con posiciones relativas en lugar de coordenadas absolutas.
 - La posición de todos los píxeles críticos, que permiten identificar estados clave del tablero.
 - La cantidad de filas y columnas en función de la dificultad seleccionada (principiante, intermedio o experto).
 - Los colores de referencia, usados para diferenciar casillas, números y banderas.
 
+---
+
 ### 💾 Guardado de datos
 
-La información del tablero se almacena en una tabla de representación interna, donde cada símbolo indica un estado:
+La información del tablero la almaceno en una tabla de representación interna, donde cada símbolo indica un estado:
 
 - X → Mina.
 - '-' → Casilla en blanco o desconocida.
@@ -248,22 +244,22 @@ La información del tablero se almacena en una tabla de representación interna,
 ###########
 ```
 
+---
+
 ## 🧩 Lógica
 
 El proceso comienza haciendo clic en el **centro del tablero** para iniciar la partida y que se descubran las primeras casillas.  
 A partir de ahí, el bot **carga los datos** del tablero y empieza a analizarlos.
 
----
-
 ### 🔹 Fase 1 — EZ (básica)
 
-La primera fase es la más **simple**: búsqueda de **minas evidentes**.  
+La primera fase es la más **simple**: búsqueda de **minas evidentes**. Primero marco las minas y luego hago clic en las casillas seguras. 
 
 - Si aparece un **2** y solo hay dos casillas posibles alrededor, esas dos son **minas seguras** → se marcan con `X`.  
 - Si aparece un **3**, ya tengo detectadas 2 minas seguras y queda solo una opción libre, entonces esa última también se marca como mina.
 - Si aparece un **2**, ya tengo **2 minas marcadas** alrededor y quedan **2 espacios disponibles**, entonces esos espacios son **seguros** y el bot hace clic en ellos automáticamente.
 
-En esta fase se aplican únicamente **deducciones directas y obvias**, garantizando que no exista margen de error.  
+En esta fase aplico únicamente **deducciones directas y obvias**, garantizando que no exista margen de error.  
 
 ```
 ####
@@ -297,8 +293,6 @@ En la siguiente imagen se muestran los bloques coloreados. En esta situación se
 
 ![Blocks](Minesweeper/Blocks.png)
 
----
-
 #### 📝 Información importante en esta fase
 
 - No moverse en **diagonal**. Usando el orden (derecha → abajo ↓ izquierda ← arriba ↑) se alcanzan igualmente las diagonales si es necesario.  
@@ -306,8 +300,6 @@ En la siguiente imagen se muestran los bloques coloreados. En esta situación se
 - Cuidado con los **bucles**: puede que un bloque se cierre sobre si mismo.  
 - Si buscando por **filas** no se encuentra nada, probar buscando por **columnas**.  
 - Puede haber **más de un camino posible** dentro de un mismo bloque.  
-
----
 
 ### 🔹 Fase 3 — 💀 Imperfecta
 
@@ -322,33 +314,32 @@ Con estas pruebas se generan tres posibles resultados:
 
 - **Bandera imposible** → Situación ideal, significa que esa casilla **100% no puede ser una mina**, por lo tanto es segura.  
 - **Solución válida** → Es una posible solución, pero **no garantiza ser la correcta**, ya que en otros escenarios alternativos podría no coincidir.
-- **Información pobre** → Situación en la que nos da alguna bomba y zona segura, pero no significa nada. 
+- **Información pobre** → Situación en la que nos da algunas bombas y zonas seguras, pero no significan nada. 
 
 En mi implementación actual, **tomo las soluciones válidas como correctas**, aunque en realidad no siempre lo son. Aquí entramos en el terreno de la **aleatoriedad** y de las **limitaciones del algoritmo**.
 
----
-
 #### 📝 Opciones de solución
 
-- Buscar otro **bloque relacionado** que permita resolver la situación desde un camino distinto.  
+- Buscar otro **bloque** que permita resolver la situación desde un camino distinto.  
 - Guardar todas las celdas analizadas y calcular las **probabilidades** de que cada una sea mina o segura, seleccionando solo las que tengan certeza de seguridad.  
 - Usar **patrones específicos** ya conocidos en Buscaminas (ejemplo: formaciones clásicas de 1-2-1 o 1-2-2-1).  
 
 En esta fase **no existe nada 100% seguro**, y se entra en una situación **pseudo-aleatoria**.
 
----
-
 ### 🔹 Fase 4 — ☠️ Muerte aleatoria
 
 La peor fase.  
 Ocurre cuando un bloque queda completamente **aislado por minas** y no existe ninguna forma lógica de acceder a él.  
-En ese caso, no queda otra opción que hacer un **clic aleatorio** y esperar la suerte.  
+En ese caso, no queda otra opción que hacer un **clic aleatorio** y esperar la muerte.  
+
+---
 
 # 🏁 Fin
 
 Hay ciertos detalles que no he explicado en profundidad, como por ejemplo:  
 
-- Si el bot muere en algún momento, automáticamente vuelve a empezar.  
+- Si el bot muere en algún momento, automáticamente vuelve a empezar.
+- Cada cuanto cargar los datos.
 - La relación entre los distintos tamaños de tablero.  
 - Ajustes minuciosos y pequeños detalles de implementación.  
 

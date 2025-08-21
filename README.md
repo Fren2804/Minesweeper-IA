@@ -1,171 +1,172 @@
-# 🧨 Buscaminas en Python
+# 🧨 Minesweeper in Python
 
 > 🇬🇧 English | [🇪🇸 Versión en Español](README.es.md)
 
-## 📌 Descripción
+## 📌 Description
 
-Este proyecto consiste en crear un bot para jugar automáticamente al clásico juego del **Buscaminas**. Existen **dos versiones del programa**:
+This project consists of creating a bot to automatically play the classic **Minesweeper** game. There are **two versions of the program**:
 
-- Una versión **completa y funcional**, ubicada en el directorio principal, que utiliza la biblioteca **PyAutoGUI**.
-- Una versión **incompleta**, ubicada en un subdirectorio, que fue desarrollada inicialmente con **Selenium**.
+- A **complete and functional** version, located in the main directory, which uses the **PyAutoGUI** library.
+- An **incomplete** version, located in a subdirectory, which was developed with the **Selenium** library.
 
-## 🚀 Motivación y evolución
+## 🚀 Motivation and Evolution
 
-Comencé desarrollando el bot con Selenium. Conseguí hacer la primera fase que es identificar las minas y hacer clic en las casillas seguras. Sin embargo, el rendimiento era muy lento, así que busqué alternativas más rápidas. Fue entonces cuando descubrí **PyAutoGUI**, que resultó ser mucho más eficiente para este caso.
+I started developing the bot with Selenium. I managed to complete the first phase, which was identifying the mines and clicking on the safe cells. However, the performance was very slow, so I looked for faster alternatives. That’s when I discovered PyAutoGUI, which turned out to be much more efficient for this case.
 
 ---
 
-## 🧪 Versión con Selenium
+## 🧪 Selenium Version
 
-Esta versión necesita un **driver de Chrome**. Al ejecutar el programa, se abre una ventana del navegador con un mensaje que indica que está siendo automatizado. Esto puede ser un inconveniente en páginas que bloquean la automatización y es algo para tener en cuenta en proyectos futuros.
+This version requires a **Chrome driver**. When running the program, a browser window opens with a message indicating that it is being automated.  
+This can be an issue on websites that block automation, and it’s something to keep in mind for future projects.  
 
-### ❌ Limitaciones
+### ❌ Limitations
 
-- Selenium carga todos los elementos de la página (HTML, CSS...), lo cual lo hace **muy lento**.
-- Cada vez que se hace clic en una casilla segura, la página se **recarga parcialmente**, haciendo el proceso más pesado.
-- En mis pruebas:
-  - El nivel **principiante** se resolvía en unos **7 segundos**.
-  - El nivel **intermedio** en aproximadamente **18 segundos**.
-  - Esto es **demasiado lento** para un bot eficiente.
+- Selenium loads all page elements (HTML, CSS, etc.), which makes it **very slow**.  
+- Each time a click is made on a safe cell, the page **partially reloads**, making the process heavier.  
+- In my tests:  
+  - The **beginner** level was solved in about **7 seconds**.  
+  - The **intermediate** level in approximately **18 seconds**.  
+  - This is **far too slow** for an efficient bot.  
 
-### ✅ Ventajas
+### ✅ Advantages
 
-- Al trabajar directamente con los elementos del **DOM**, Selenium permite una mayor **flexibilidad** en cuanto a resolución de pantalla, posición de los elementos y precisión en la interacción.
-- Los elementos del juego son **fáciles de identificar** gracias a sus clases e identificadores bien estructurados.
+- By working directly with **DOM elements**, Selenium provides greater **flexibility** in terms of screen resolution, element positioning, and interaction accuracy.  
+- The game elements are **easy to identify** thanks to their well-structured classes and identifiers.  
 
-### 🧾 Datos del DOM del Buscaminas
+### 🧾 Minesweeper DOM Data
 
-Al inspeccionar el HTML del juego, es posible identificar con facilidad la información relevante de cada casilla. Por ejemplo:
+When inspecting the game’s HTML, it is easy to identify relevant information for each cell. For example:  
 
-- La **clase (`class`)** indica el **estado de la casilla** (en blanco, descubierta, número de minas cercanas, etc.).
-- El **identificador (`id`)** proporciona la **posición** de la casilla en formato `fila_columna`.
+- The **class (`class`)** indicates the **state of the cell** (blank, revealed, number of nearby mines, etc.).  
+- The **identifier (`id`)** provides the **position** of the cell in the format `row_column`.
 
-#### Ejemplos de casillas:
+#### Cell Examples:
 
-- **Casilla en blanco**, sin descubrir. Podría contener una mina.  
+- **Blank cell**, not revealed. It could contain a mine.  
   (x = 20, y = 8)  
   ```html
   <div class="square blank" id="8_20"></div>
   ```
-
-- **Casilla descubierta con el número 2**, lo que indica que hay dos minas alrededor.  
+- **Revealed cell with number 2**, indicating that there are two mines around it.
   (x = 16, y = 7)  
   ```html
   <div class="square open2" id="7_16"></div>
   ```
 
-### 🎮 Estado de la partida
+### 🎮 Game State
 
-También es posible detectar el **estado del juego** (en curso, ganado o perdido) a través de un elemento del DOM con identificador `"face"` y una clase que cambia dinámicamente:
+It is also possible to detect the game state (in progress, won, or lost) through a DOM element with the identifier `"face"` and a dynamically changing class:
 
-- Si la clase es `"facesmile"`, significa que la partida **sigue activa**.  
+- If the class is `"facesmile"`, it means the game is **still active**.
   ```<div class="facesmile" style="margin-left:182px; margin-right: 182px;" id="face"></div>```
 
-### 📋 Resumen de clases útiles
+### 📋 Summary of Useful Classes
 
-| Clase              | Significado                             |
-|-------------------|------------------------------------------|
-| `square blank`       | Casilla no descubierta (posible mina)    |
-| `square open0`       | Casilla descubierta, 0 minas alrededor   |
-| `square open1`       | Casilla descubierta, 1 mina alrededor    |
-| `square open2`       | Casilla descubierta, 2 minas alrededor   |
-| `square open3`       | Casilla descubierta, 3 minas alrededor   |
-| `square open4`       | Casilla descubierta, 4 minas alrededor   |
-| `square open5`       | Casilla descubierta, 5 minas alrededor   |
-| `square open6`       | Casilla descubierta, 6 minas alrededor   |
-| `square open7`       | Casilla descubierta, 7 minas alrededor   |
-| `square open8`       | Casilla descubierta, 8 minas alrededor   |
-| `square bombflagged` | Casilla marcada con posible bomba           |
-| `facesmile`          | Partida en curso                         |
-| `facewin`            | Has ganado                               |
-| `facedead`           | Has perdido                              |
+| Class              | Meaning                                      |
+|--------------------|----------------------------------------------|
+| `square blank`       | Unrevealed cell (possible mine)              |
+| `square open0`       | Revealed cell, 0 mines around                |
+| `square open1`       | Revealed cell, 1 mine around                 |
+| `square open2`       | Revealed cell, 2 mines around                |
+| `square open3`       | Revealed cell, 3 mines around                |
+| `square open4`       | Revealed cell, 4 mines around                |
+| `square open5`       | Revealed cell, 5 mines around                |
+| `square open6`       | Revealed cell, 6 mines around                |
+| `square open7`       | Revealed cell, 7 mines around                |
+| `square open8`       | Revealed cell, 8 mines around                |
+| `square bombflagged` | Cell marked as possible mine                 |
+| `facesmile`          | Game in progress                            |
+| `facewin`            | You won                                     |
+| `facedead`           | You lost                                    |
 
 ---
 
-## 🧪 Versión con PyAutoGUI (versión final)
+## 🧪 PyAutoGUI Version (Final)
 
-Esta versión no necesita interactuar con el navegador ni analizar el DOM. En su lugar, **actúa directamente sobre capturas de pantalla** y analizando los **píxeles** de la imagen o interactuando con los píxeles de tu pantalla. El bot actúa como si fuera un usuario.
+This version does not need to interact with the browser or analyze the DOM. Instead, it **works directly on screenshots**, analyzing the **pixels** of the image or interacting with the pixels on your screen. The bot acts as if it were a real user.  
 
-### ❌ Limitaciones
+### ❌ Limitations
 
-- Aunque PyAutoGUI permite buscar **patrones visuales** o imágenes dentro de la pantalla, cuanto **más amplia** es la zona que analizas, **más lento** será el proceso.
-- Si usas **valores de píxeles exactos**, el sistema es muy rápido, pero pierde flexibilidad. Si la página se desplaza incluso **un solo píxel**, el bot puede dejar de funcionar.
-- Cuanta más **precisión** exijas, menor será el **margen de error** permitido.
-- Es necesario hacer una especie de **"data mining" manual** para identificar qué píxeles o colores te interesa capturar y qué significan. Es decir, tú defines tus propios datos a partir de la imagen.
+- Although PyAutoGUI allows searching for **visual patterns** or images on the screen, the **wider** the area you analyze, the **slower** the process will be.  
+- If you use **exact pixel values**, the system is very fast but loses flexibility. If the page shifts even **one pixel**, the bot may stop working.  
+- The higher the **precision** you require, the smaller the **margin of error** allowed.  
+- It is necessary to perform a sort of **manual "data mining"** to identify which pixels or colors you want to capture and what they mean. In other words, you define your own dataset from the image.  
 
-### ✅ Ventajas
+### ✅ Advantages
 
-- Usando coordenadas y colores de **píxeles exactos**, el bot es **extremadamente rápido**.
-- Permite un mayor **margen de optimización** que Selenium.
-- Al hacer clic, **no es necesario recargar la página** ni esperar ninguna transición.
-- En mis pruebas:
-  - El nivel **principiante** se resolvía en aproximadamente **1 segundo**.
-  - El nivel **intermedio** en unos **3 segundos**.
-  - El nivel **experto** en unos **10 segundos**.
-  - Estos tiempos son **muy superiores** a los que obtuve usando Selenium.
+- Using exact **pixel coordinates and colors**, the bot is **extremely fast**.  
+- Allows greater **optimization potential** than Selenium.  
+- When clicking, there is **no need to reload the page** or wait for any transition.  
+- In my tests:  
+  - The **beginner** level was solved in about **1 second**.  
+  - The **intermediate** level in around **3 seconds**.  
+  - The **expert** level in about **10 seconds**.  
+  - These times are **far superior** to those obtained with Selenium.  
 
-### 📊 Datos de ejemplo
+### 📊 Example Data
 
-A diferencia de Selenium, aquí los datos **los defines tú** a partir de lo que ves en pantalla. Por ejemplo:
+Unlike Selenium, here the data is **defined by you** based on what you see on the screen. For example:  
+
 ```python
 config.x_victory = 446 - config.screenshot_left
 ```  
 
-Este valor (`x_victory`) representa la posición horizontal (coordenada X) del píxel donde se muestra la **cara de victoria**. Lo calculada en base al desplazamiento del área capturada.
+This value (`x_victory`) represents the horizontal position (X coordinate) of the pixel where the victory face is displayed. It is calculated based on the offset of the captured area.
 
-Otro ejemplo:
+Another example:
 ```python
 (255, 0, 0): 3
 ``` 
 
-Esto indica que el color **rojo puro** `(255, 0, 0)` representa el número **3** en el tablero. Es una forma directa de identificar qué número aparece en una casilla, a raíz del color de un pixel.
+This indicates that the pure **red color** `(255, 0, 0)` represents the number **3** on the board. It is a straightforward way to identify which number appears in a cell, based on the color of a pixel.  
 
-Como se puede ver, esta técnica requiere definir manualmente los valores relevantes, pero te da un **control total** sobre cómo interpretar la imagen. Puedes usar la función `show` para ver la captura o guardarla y usar el propio paint para medir y obtener las distancias de los pixeles más relevantes.
+As you can see, this technique requires manually defining the relevant values, but it gives you **full control** over how to interpret the image. You can use the `show` function to view the screenshot or save it and use a simple tool like Paint to measure and obtain the distances of the most relevant pixels.  
 
-### 🧾 Conclusión
+### 🧾 Conclusion
 
-Aunque **PyAutoGUI** no tolera errores y requiere realizar **pruebas manuales** para identificar los píxeles y extraer los datos útiles, ofrece un rendimiento **mucho más rápido** que Selenium.
+Although **PyAutoGUI** is not error-tolerant and requires **manual testing** to identify pixels and extract useful data, it offers **much faster performance** than Selenium.  
 
-Es una herramienta muy eficaz cuando se prioriza la **velocidad de ejecución** y el **control total** sobre el entorno, a cambio de una menor tolerancia a cambios visuales y más trabajo inicial de configuración.
+It is a very effective tool when **execution speed** and **full control** over the environment are the priority, at the cost of less tolerance to visual changes and more initial setup work.  
 
 ---
 
-## 🧪 Detección de píxeles y extracción de datos
+## 🧪 Pixel Detection and Data Extraction
 
-En el apartado `sources` se encuentran los distintos iconos que la página usa para representar cada elemento del tablero. Esto es muy útil para analizar los píxeles y decidir qué información buscar.
+In the `sources` folder, you can find the different icons that the page uses to represent each element of the board. This is very useful for analyzing pixels and deciding what information to look for.  
 
-![Iconos](Minesweeper/Icons.png)
+![Icons](Minesweeper/Icons.png)
 
-Una vez recopilados, el siguiente paso es **analizar los elementos y dividirlos al máximo**, con el objetivo de reducir comprobaciones y generalizar el proceso lo más posible.
+Once collected, the next step is to **analyze the elements and break them down as much as possible**, with the goal of reducing checks and generalizing the process as much as possible.  
 
-### 🟨 Al principio
+### 🟨 In the Beginning
 
-Recortaba cada imagen directamente desde la imagen que me daba la página para comparar los patrones completos. Funcionaba, pero resultaba lento y poco eficiente.
-Investigando, descubrí que podía optimizar la búsqueda analizando solo píxeles clave y no imagenes, porque al final una imagen 24x24 son 576 pixeles cada vez.
+I used to crop each image directly from the screenshot provided by the page to compare the complete patterns. It worked, but it was slow and inefficient.  
+After some research, I discovered that I could optimize the search by analyzing only **key pixels** instead of full images — since a 24×24 image means 576 pixels to check each time.  
 
-### ✂️ Mi división
+### ✂️ My Breakdown
 
-La primera separación que hice fue distinguir entre:
+The first separation I made was to distinguish between:
 
-- El tablero de minas
-- El cuadro del smile
+- The minefield (board)  
+- The smiley face panel  
 
-### 🔲 Casillas
+### 🔲 Cells
 
-Con el zoom al **150%**, cada casilla ocupa **24×24 píxeles**.
-Uso un píxel de la esquina superior izquierda para saber si la casilla está pulsada o no. Para diferenciarlas me baso en el color blanco y el gris `(192, 192, 192)`.
+With **150% zoom**, each cell takes up **24×24 pixels**.  
+I use a pixel from the **top-left corner** to know whether the cell is pressed or not. To differentiate them, I rely on the white and gray colors `(192, 192, 192)`.  
 
 ![Squares](Minesweeper/Squares.png)
 
-#### 🔢 Casilla seleccionada (números)
+#### 🔢 Selected Cell (Numbers)
 
-En las casillas seleccionadas necesito obtener el número que aparece.
-Analizando los patrones, encontré una fila muy favorable donde casi todos los números presentan píxeles característicos.
-De ahí seleccioné los píxeles del 2 o del 7, ya que son los más restrictivos.
+For selected cells, I need to obtain the number that appears.  
+By analyzing the patterns, I found a very favorable row where almost all numbers have characteristic pixels.  
+From there, I selected the pixels of **2** and **7**, since they are the most restrictive.  
 
 ![Numbers](Minesweeper/Numbers.png)
 
-A partir de este punto ya puedo mapear los números utilizando una tabla de colores RGB:
+From this point, I can map the numbers using an **RGB color table**:  
 
 ```python
 colors = {
@@ -181,56 +182,56 @@ colors = {
 }
 ```
 
-#### 🚩 Casilla sin seleccionar
+#### 🚩 Unselected Cell
 
-En las casillas sin seleccionar hay dos casos posibles:
-- Vacía
-- Con bandera
+For unselected cells, there are two possible cases:  
+- Empty  
+- With a flag  
 
-La diferencia se puede detectar fácilmente eligiendo un píxel del centro donde exista diferencia de color.
+The difference can be easily detected by choosing a pixel in the center where there is a noticeable color variation.  
 
-![BombFlagged](Minesweeper/Flagged.png)
-
+![BombFlagged](Minesweeper/Flagged.png)  
 
 ### 🙂 Smile
 
-El smile tiene 3 posibles estados:
+The smiley face has 3 possible states:  
 
-- Jugando (cara contenta)
-- Derrota (cara muerta)
-- Victoria (cara con gafas)
+- Playing (happy face)  
+- Defeat (dead face)  
+- Victory (face with sunglasses)  
 
-Para diferenciarlos seleccioné píxeles restrictivos.
-Primero verifico si se ha ganado la partida. Ya que en los otros dos casos la zona de píxeles correspondiente es idéntica.
-Y la siguiente diferencia está en la boca de la cara muerta.
+To distinguish them, I selected restrictive pixels.  
+First, I check whether the game has been won, since in the other two cases the corresponding pixel area is identical.  
+The next difference is found in the mouth of the dead face.  
 
-![Smiles](Minesweeper/Smiles.png)
+![Smiles](Minesweeper/Smiles.png)  
 
-### 🖼️ Otras imágenes
+### 🖼️ Other Images
 
-Existen más iconos y variaciones de caras, pero no son relevantes. Por ejemplo, si aparecen minas, ya sabemos que la partida está perdida (cara muerta). 
-Las demás expresiones intermedias no aportan información esencial, ya que lo importante es diferenciar muerte y victoria. Por eso, en este análisis lo fundamental es identificar los píxeles críticos de las caras que permitan distinguir el estado real de la partida.
-
----
-
-### ⚙️ Configuración
-
-En la configuración defino los parámetros necesarios para que el bot pueda funcionar correctamente:
-- Steps entre casillas, muy útiles para trabajar con posiciones relativas en lugar de coordenadas absolutas.
-- La posición de todos los píxeles críticos, que permiten identificar estados clave del tablero.
-- La cantidad de filas y columnas en función de la dificultad seleccionada (principiante, intermedio o experto).
-- Los colores de referencia, usados para diferenciar casillas, números y banderas.
+There are more icons and face variations, but they are not relevant. For example, if mines are revealed, we already know the game is lost (dead face).  
+Other intermediate expressions do not provide essential information, since the important part is distinguishing **loss** and **victory**.  
+That’s why, in this analysis, the main goal is to identify the **critical pixels** of the faces that allow us to determine the actual game state.  
 
 ---
 
-### 💾 Guardado de datos
+### ⚙️ Configuration
 
-La información del tablero la almaceno en una tabla de representación interna, donde cada símbolo indica un estado:
+In the configuration, I define the parameters required for the bot to work properly:  
+- Steps between cells, very useful for working with **relative positions** instead of absolute coordinates.  
+- The position of all **critical pixels**, which allow identifying key board states.  
+- The number of rows and columns depending on the selected difficulty (beginner, intermediate, or expert).  
+- The **reference colors**, used to differentiate cells, numbers, and flags.  
 
-- X → Mina.
-- '-' → Casilla en blanco o desconocida.
-- Número (0–8) → Cantidad de minas alrededor de la casilla.
-- ? → Desconocido, este símbolo se usa de forma interna cuando se hace clic en una casilla y aún no se han cargado los datos.
+---
+
+### 💾 Data Storage
+
+The board information is stored in an **internal representation table**, where each symbol indicates a state:  
+
+- `X` → Mine.  
+- `-` → Blank or unknown cell.  
+- Number (0–8) → Number of mines around the cell.  
+- `?` → Unknown, this symbol is used internally when a cell is clicked but its data has not yet been loaded.  
 
 ```
 ###########
@@ -248,20 +249,20 @@ La información del tablero la almaceno en una tabla de representación interna,
 
 ---
 
-## 🧩 Lógica
+## 🧩 Logic
 
-El proceso comienza haciendo clic en el **centro del tablero** para iniciar la partida y que se descubran las primeras casillas.  
-A partir de ahí, el bot **carga los datos** del tablero y empieza a analizarlos.
+The process begins by clicking on the **center of the board** to start the game and reveal the first cells.  
+From there, the bot **loads the board data** and begins analyzing it.  
 
-### 🔹 Fase 1 — EZ (básica)
+### 🔹 Phase 1 — EZ (Basic)
 
-La primera fase es la más **simple**: búsqueda de **minas evidentes**. Primero marco las minas y luego hago clic en las casillas seguras. 
+The first phase is the **simplest**: looking for **obvious mines**. First, I flag the mines, then I click on the safe cells.  
 
-- Si aparece un **2** y solo hay dos casillas posibles alrededor, esas dos son **minas seguras** → se marcan con `X`.  
-- Si aparece un **3**, ya tengo detectadas 2 minas seguras y queda solo una opción libre, entonces esa última también se marca como mina.
-- Si aparece un **2**, ya tengo **2 minas marcadas** alrededor y quedan **2 espacios disponibles**, entonces esos espacios son **seguros** y el bot hace clic en ellos automáticamente.
+- If a **2** appears and there are only two possible cells around it, those two are **definite mines** → they are marked with `X`.  
+- If a **3** appears, and I already have 2 safe mines detected, leaving only one free option, then that last one is also marked as a mine.  
+- If a **2** appears, and I already have **2 mines flagged** around it and **2 remaining spaces**, then those spaces are **safe**, and the bot automatically clicks on them.  
 
-En esta fase aplico únicamente **deducciones directas y obvias**, garantizando que no exista margen de error.  
+In this phase, I only apply **direct and obvious deductions**, ensuring there is no margin for error.  
 
 ```
 ####
@@ -276,80 +277,84 @@ En esta fase aplico únicamente **deducciones directas y obvias**, garantizando 
 #####
 ```
 
-⚠️❗ **Nota:**  
-A partir de aquí, aunque mi implementación funciona, considero que se puede hacer **mucho mejor**.  
-El enfoque actual **no es el más óptimo**, simplemente es la solución que encontré para que el bot funcione correctamente. 
+⚠️❗ **Note:**  
+From this point onward, although my implementation works, I believe it could be done **much better**.  
+The current approach is **not the most optimal** — it is simply the solution I found to make the bot work correctly.  
 
-### 🔹 Fase 2 — Bloques
+### 🔹 Phase 2 — Blocks
 
-La segunda fase comienza **solo si no se realizan cambios en la Fase 1**.  
-A esta fase la llamo **“bloques”**.  
+The second phase begins **only if no changes are made in Phase 1**.  
+I call this phase **“blocks”**.  
 
-👉 ¿Qué significa esto?  
-Se consideran **bloques** aquellas celdas que tienen **relación directa entre sí**. Es decir, cualquier modificación en una celda afecta de manera inmediata a otra a la que tenemos acceso.  
+👉 What does this mean?  
+**Blocks** are considered to be cells that have a **direct relationship with each other**. In other words, any modification in one cell immediately affects another that we have access to.  
 
-- Una celda rodeada únicamente de minas y `-` no aporta información útil.  
-- En cambio, solo es relevante si alrededor (a una distancia de 1) existen **números visibles**.  
+- A cell surrounded only by mines and `-` provides no useful information.  
+- On the other hand, it is only relevant if there are **visible numbers** around it (within a distance of 1).  
 
-En la siguiente imagen se muestran los bloques coloreados. En esta situación se podría seguir resolviendo en el bloque inferior, pero detuve la ejecución para mostrar el ejemplo:
+In the following image, the blocks are shown in color.  
+In this situation, it would be possible to continue solving in the lower block, but I stopped the execution to show the example:  
 
-![Blocks](Minesweeper/Blocks.png)
+![Blocks](Minesweeper/Blocks.png)  
 
-#### 📝 Información importante en esta fase
+#### 📝 Important Information in This Phase
 
-- No moverse en **diagonal**. Usando el orden (derecha → abajo ↓ izquierda ← arriba ↑) se alcanzan igualmente las diagonales si es necesario.  
-- No volver sobre nuestros pasos: si el orden es (derecha → abajo ↓ izquierda ← arriba ↑) y me moví a la izquierda, no vuelvo a la derecha.  
-- Cuidado con los **bucles**: puede que un bloque se cierre sobre si mismo.  
-- Si buscando por **filas** no se encuentra nada, probar buscando por **columnas**.  
-- Puede haber **más de un camino posible** dentro de un mismo bloque.  
+- Do not move **diagonally**. By using the order (right → down ↓ left ← up ↑), the diagonals can still be reached if necessary.  
+- Do not go back on your steps: if the order is (right → down ↓ left ← up ↑) and I moved left, I don’t go back to the right.  
+- Beware of **loops**: a block may close back onto itself.  
+- If searching by **rows** doesn’t yield results, try searching by **columns**.  
+- There may be **more than one possible path** within the same block.  
 
-### 🔹 Fase 3 — 💀 Imperfecta
+### 🔹 Phase 3 — 💀 Imperfect
 
-En la fase de **bloques** solo obtenemos **un bloque por proceso**.  
-Una vez que tenemos uno, pasamos a analizar **situaciones hipotéticas**:
+In the **blocks** phase, we only obtain **one block per process**.  
+Once we have one, we move on to analyzing **hypothetical situations**:  
 
-- ¿Qué sucede si pongo una bandera en la primera posición?  
-- ¿Y en la segunda?  
-- ¿Y en la tercera?  
+- What happens if I place a flag in the first position?  
+- What about the second one?  
+- And the third one?  
 
-Con estas pruebas se generan tres posibles resultados:
+From these tests, three possible outcomes are generated:  
 
-- **Bandera imposible** → Situación ideal, significa que esa casilla **100% no puede ser una mina**, por lo tanto es segura.  
-- **Solución válida** → Es una posible solución, pero **no garantiza ser la correcta**, ya que en otros escenarios alternativos podría no coincidir.
-- **Información pobre** → Situación en la que nos da algunas bombas y zonas seguras, pero no significan nada. 
+- **Impossible flag** → Ideal situation, meaning that this cell **100% cannot be a mine**, therefore it is safe.  
+- **Valid solution** → A possible solution, but it does **not guarantee correctness**, since in other alternative scenarios it may not hold true.  
+- **Poor information** → A situation where we get some bombs and safe zones, but they don’t mean anything conclusive.  
 
-En mi implementación actual, **tomo las soluciones válidas como correctas**, aunque en realidad no siempre lo son. Aquí entramos en el terreno de la **aleatoriedad** y de las **limitaciones del algoritmo**.
+In my current implementation, I **take valid solutions as correct**, even though they are not always so.  
+Here we enter the territory of **randomness** and **algorithmic limitations**.  
 
-#### 📝 Opciones de solución
+#### 📝 Solution Options
 
-- Buscar otro **bloque** que permita resolver la situación desde un camino distinto.  
-- Guardar todas las celdas analizadas y calcular las **probabilidades** de que cada una sea mina o segura, seleccionando solo las que tengan certeza de seguridad.  
-- Usar **patrones específicos** ya conocidos en Buscaminas (ejemplo: formaciones clásicas de 1-2-1 o 1-2-2-1).  
+- Look for another **block** that allows solving the situation from a different path.  
+- Save all analyzed cells and calculate the **probabilities** of each one being a mine or safe, selecting only those with guaranteed safety.  
+- Use **specific known Minesweeper patterns** (e.g., the classic 1-2-1 or 1-2-2-1 formations).  
 
-En esta fase **no existe nada 100% seguro**, y se entra en una situación **pseudo-aleatoria**.
-
-### 🔹 Fase 4 — ☠️ Muerte aleatoria
-
-La peor fase.  
-Ocurre cuando un bloque queda completamente **aislado por minas** y no existe ninguna forma lógica de acceder a él.  
-En ese caso, no queda otra opción que hacer un **clic aleatorio** y esperar la muerte.  
+In this phase, **nothing is 100% certain**, and the process becomes **pseudo-random**.  
 
 ---
 
-## 🏁 Fin
+### 🔹 Phase 4 — ☠️ Random Death
 
-Hay ciertos detalles que no he explicado en profundidad, como por ejemplo:  
-
-- Si el bot muere en algún momento, automáticamente vuelve a empezar.
-- Cada cuanto cargar los datos.
-- La relación entre los distintos tamaños de tablero.  
-- Ajustes minuciosos y pequeños detalles de implementación.  
-
-Lo importante es haber transmitido el **concepto general** y el enfoque utilizado, que espero que haya quedado claro.  
+The worst phase.  
+It happens when a block is completely **isolated by mines**, and there is no logical way to access it.  
+In that case, the only option is to make a **random click** and hope for survival.  
 
 ---
 
-## 📊 Resultados obtenidos
+## 🏁 End
+
+There are certain details that I have not explained in depth, such as:  
+
+- If the bot dies at any point, it automatically restarts.  
+- How often the data is refreshed.  
+- The relationship between the different board sizes.  
+- Fine-tuning and small implementation details.  
+
+The important thing is that I’ve conveyed the **general concept** and the approach used, which I hope is now clear.  
+
+---
+
+## 📊 Results Obtained
 
 ![Results](Minesweeper/Records.png)
 

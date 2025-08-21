@@ -343,7 +343,7 @@ Hay ciertos detalles que no he explicado en profundidad, como por ejemplo:
 - La relación entre los distintos tamaños de tablero.  
 - Ajustes minuciosos y pequeños detalles de implementación.  
 
-Lo importante es haber transmitido el **concepto general** y el enfoque utilizado, que espero haya quedado claro.  
+Lo importante es haber transmitido el **concepto general** y el enfoque utilizado, que espero que haya quedado claro.  
 
 ---
 

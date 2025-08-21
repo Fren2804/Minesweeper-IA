@@ -118,15 +118,11 @@ Otro ejemplo:
 (255, 0, 0): 3
 ``` 
 
-Esto indica que el color **rojo puro** `(255, 0, 0)` representa el número **3** en el tablero. Es una forma directa de identificar qué número aparece en una casilla, a raíz del color de un pixel.
-
-Como se puede ver, esta técnica requiere definir manualmente los valores relevantes, pero te da un **control total** sobre cómo interpretar la imagen. Puedes usar la función `show` para ver la captura o guardarla y usar el propio paint para medir y obtener las distancias de los pixeles más relevantes.
+Esto indica que el color **rojo puro** `(255, 0, 0)` representa el número **3** en el tablero. Es una forma directa de identificar qué número aparece en una casilla, a raíz del color de un pixel. Como se puede ver, esta técnica requiere definir manualmente los valores relevantes, pero te da un **control total** sobre cómo interpretar la imagen. Puedes usar la función `show` para ver la captura o guardarla y usar el propio paint para medir y obtener las distancias de los pixeles más relevantes.
 
 ### 🧾 Conclusión
 
-Aunque **PyAutoGUI** no tolera errores y requiere realizar **pruebas manuales** para identificar los píxeles y extraer los datos útiles, ofrece un rendimiento **mucho más rápido** que Selenium.
-
-Es una herramienta muy eficaz cuando se prioriza la **velocidad de ejecución** y el **control total** sobre el entorno, a cambio de una menor tolerancia a cambios visuales y más trabajo inicial de configuración.
+Aunque **PyAutoGUI** no tolera errores y requiere realizar **pruebas manuales** para identificar los píxeles y extraer los datos útiles, ofrece un rendimiento **mucho más rápido** que Selenium. Es una herramienta muy eficaz cuando se prioriza la **velocidad de ejecución** y el **control total** sobre el entorno, a cambio de una menor tolerancia a cambios visuales y más trabajo inicial de configuración.
 
 ---
 
@@ -140,8 +136,7 @@ Una vez recopilados, el siguiente paso es **analizar los elementos y dividirlos 
 
 ### 🟨 Al principio
 
-Recortaba cada imagen directamente desde la imagen que me daba la página para comparar los patrones completos. Funcionaba, pero resultaba lento y poco eficiente.
-Investigando, descubrí que podía optimizar la búsqueda analizando solo píxeles clave y no imagenes, porque al final una imagen 24x24 son 576 pixeles cada vez.
+Recortaba cada imagen directamente desde la imagen que me daba la página para comparar los patrones completos. Funcionaba, pero resultaba lento y poco eficiente. Investigando, descubrí que podía optimizar la búsqueda analizando solo píxeles clave y no imagenes, porque al final una imagen 24x24 son 576 pixeles cada vez.
 
 ### ✂️ Mi división
 
@@ -152,16 +147,13 @@ La primera separación que hice fue distinguir entre:
 
 ### 🔲 Casillas
 
-Con el zoom al **150%**, cada casilla ocupa **24×24 píxeles**.
-Uso un píxel de la esquina superior izquierda para saber si la casilla está pulsada o no. Para diferenciarlas me baso en el color blanco y el gris `(192, 192, 192)`.
+Con el zoom al **150%**, cada casilla ocupa **24×24 píxeles**. Uso un píxel de la esquina superior izquierda para saber si la casilla está pulsada o no. Para diferenciarlas me baso en el color blanco y el gris `(192, 192, 192)`.
 
 ![Squares](Minesweeper/Squares.png)
 
 #### 🔢 Casilla seleccionada (números)
 
-En las casillas seleccionadas necesito obtener el número que aparece.
-Analizando los patrones, encontré una fila muy favorable donde casi todos los números presentan píxeles característicos.
-De ahí seleccioné los píxeles del 2 o del 7, ya que son los más restrictivos.
+En las casillas seleccionadas necesito obtener el número que aparece. Analizando los patrones, encontré una fila muy favorable donde casi todos los números presentan píxeles característicos. De ahí seleccioné los píxeles del 2 o del 7, ya que son los más restrictivos.
 
 ![Numbers](Minesweeper/Numbers.png)
 
@@ -200,16 +192,13 @@ El smile tiene 3 posibles estados:
 - Derrota (cara muerta)
 - Victoria (cara con gafas)
 
-Para diferenciarlos seleccioné píxeles restrictivos.
-Primero verifico si se ha ganado la partida. Ya que en los otros dos casos la zona de píxeles correspondiente es idéntica.
-Y la siguiente diferencia está en la boca de la cara muerta.
+Para diferenciarlos seleccioné píxeles restrictivos. Primero verifico si se ha ganado la partida. Ya que en los otros dos casos la zona de píxeles correspondiente es idéntica. Y la siguiente diferencia está en la boca de la cara muerta.
 
 ![Smiles](Minesweeper/Smiles.png)
 
 ### 🖼️ Otras imágenes
 
-Existen más iconos y variaciones de caras, pero no son relevantes. Por ejemplo, si aparecen minas, ya sabemos que la partida está perdida (cara muerta). 
-Las demás expresiones intermedias no aportan información esencial, ya que lo importante es diferenciar muerte y victoria. Por eso, en este análisis lo fundamental es identificar los píxeles críticos de las caras que permitan distinguir el estado real de la partida.
+Existen más iconos y variaciones de caras, pero no son relevantes. Por ejemplo, si aparecen minas, ya sabemos que la partida está perdida (cara muerta). Las demás expresiones intermedias no aportan información esencial, ya que lo importante es diferenciar muerte y victoria. Por eso, en este análisis lo fundamental es identificar los píxeles críticos de las caras que permitan distinguir el estado real de la partida.
 
 ---
 
@@ -250,8 +239,7 @@ La información del tablero la almaceno en una tabla de representación interna,
 
 ## 🧩 Lógica
 
-El proceso comienza haciendo clic en el **centro del tablero** para iniciar la partida y que se descubran las primeras casillas.  
-A partir de ahí, el bot **carga los datos** del tablero y empieza a analizarlos.
+El proceso comienza haciendo clic en el **centro del tablero** para iniciar la partida y que se descubran las primeras casillas. A partir de ahí, el bot **carga los datos** del tablero y empieza a analizarlos.
 
 ### 🔹 Fase 1 — EZ (básica)
 
@@ -277,13 +265,11 @@ En esta fase aplico únicamente **deducciones directas y obvias**, garantizando 
 ```
 
 ⚠️❗ **Nota:**  
-A partir de aquí, aunque mi implementación funciona, considero que se puede hacer **mucho mejor**.  
-El enfoque actual **no es el más óptimo**, simplemente es la solución que encontré para que el bot funcione correctamente. 
+A partir de aquí, aunque mi implementación funciona, considero que se puede hacer **mucho mejor**. El enfoque actual **no es el más óptimo**, simplemente es la solución que encontré para que el bot funcione correctamente. 
 
 ### 🔹 Fase 2 — Bloques
 
-La segunda fase comienza **solo si no se realizan cambios en la Fase 1**.  
-A esta fase la llamo **“bloques”**.  
+La segunda fase comienza **solo si no se realizan cambios en la Fase 1**. A esta fase la llamo **“bloques”**.  
 
 👉 ¿Qué significa esto?  
 Se consideran **bloques** aquellas celdas que tienen **relación directa entre sí**. Es decir, cualquier modificación en una celda afecta de manera inmediata a otra a la que tenemos acceso.  
@@ -305,8 +291,7 @@ En la siguiente imagen se muestran los bloques coloreados. En esta situación se
 
 ### 🔹 Fase 3 — 💀 Imperfecta
 
-En la fase de **bloques** solo obtenemos **un bloque por proceso**.  
-Una vez que tenemos uno, pasamos a analizar **situaciones hipotéticas**:
+En la fase de **bloques** solo obtenemos **un bloque por proceso**. Una vez que tenemos uno, pasamos a analizar **situaciones hipotéticas**:
 
 - ¿Qué sucede si pongo una bandera en la primera posición?  
 - ¿Y en la segunda?  
@@ -330,9 +315,7 @@ En esta fase **no existe nada 100% seguro**, y se entra en una situación **pseu
 
 ### 🔹 Fase 4 — ☠️ Muerte aleatoria
 
-La peor fase.  
-Ocurre cuando un bloque queda completamente **aislado por minas** y no existe ninguna forma lógica de acceder a él.  
-En ese caso, no queda otra opción que hacer un **clic aleatorio** y esperar la muerte.  
+La peor fase. Ocurre cuando un bloque queda completamente **aislado por minas** y no existe ninguna forma lógica de acceder a él. En ese caso, no queda otra opción que hacer un **clic aleatorio** y esperar la muerte.  
 
 ---
 

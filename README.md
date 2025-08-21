@@ -2,14 +2,14 @@
 
 ## 📌 Descripción
 
-Este proyecto consiste en un bot para jugar automáticamente al clásico juego del **Buscaminas**. Existen **dos versiones del programa**:
+Este proyecto consiste en crear un bot para jugar automáticamente al clásico juego del **Buscaminas**. Existen **dos versiones del programa**:
 
 - Una versión **completa y funcional**, ubicada en el directorio principal, que utiliza la biblioteca **PyAutoGUI**.
 - Una versión **incompleta**, ubicada en un subdirectorio, que fue desarrollada inicialmente con **Selenium**.
 
 ## 🚀 Motivación y evolución
 
-Comencé desarrollando el bot con Selenium. Conseguí que identificara las minas e hiciera clic en las casillas seguras. Sin embargo, el rendimiento era muy lento, así que busqué alternativas más rápidas. Fue entonces cuando descubrí **PyAutoGUI**, que resultó mucho más eficiente para este caso.
+Comencé desarrollando el bot con Selenium. Conseguí hacer la primera fase que es identificar las minas y hacer clic en las casillas seguras. Sin embargo, el rendimiento era muy lento, así que busqué alternativas más rápidas. Fue entonces cuando descubrí **PyAutoGUI**, que resultó ser mucho más eficiente para este caso.
 
 ---
 
@@ -30,8 +30,6 @@ Esta versión necesita un **driver de Chrome**. Al ejecutar el programa, se abre
 
 - Al trabajar directamente con los elementos del **DOM**, Selenium permite una mayor **flexibilidad** en cuanto a resolución de pantalla, posición de los elementos y precisión en la interacción.
 - Los elementos del juego son **fáciles de identificar** gracias a sus clases e identificadores bien estructurados.
-
----
 
 ### 🧾 Datos del DOM del Buscaminas
 
@@ -54,16 +52,12 @@ Al inspeccionar el HTML del juego, es posible identificar con facilidad la infor
   <div class="square open2" id="7_16"></div>
   ```
 
----
-
 ### 🎮 Estado de la partida
 
 También es posible detectar el **estado del juego** (en curso, ganado o perdido) a través de un elemento del DOM con identificador `"face"` y una clase que cambia dinámicamente:
 
 - Si la clase es `"facesmile"`, significa que la partida **sigue activa**.  
   ```<div class="facesmile" style="margin-left:182px; margin-right: 182px;" id="face"></div>```
-
----
 
 ### 📋 Resumen de clases útiles
 
@@ -84,7 +78,7 @@ También es posible detectar el **estado del juego** (en curso, ganado o perdido
 | `facewin`            | Has ganado                               |
 | `facedead`           | Has perdido                              |
 
-
+---
 
 ## 🧪 Versión con PyAutoGUI (versión final)
 

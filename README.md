@@ -352,5 +352,5 @@ Lo importante es haber transmitido el **concepto general** y el enfoque utilizad
 ![Results](Minesweeper/Records.png)
 
 ## 🎥 Demo Video
-https://www.youtube.com/watch?v=Y5WTmX_FgSI
+
 [![Watch the video](https://img.youtube.com/vi/Y5WTmX_FgSI/0.jpg)](https://www.youtube.com/watch?v=Y5WTmX_FgSI)

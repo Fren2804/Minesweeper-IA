@@ -350,3 +350,7 @@ Lo importante es haber transmitido el **concepto general** y el enfoque utilizad
 ## 📊 Resultados obtenidos
 
 ![Results](Minesweeper/Records.png)
+
+## 🎥 Demo Video
+
+[![Watch the video]([https://img.youtube.com/vi/abcd1234/0.jpg](https://es.m.wikipedia.org/wiki/Archivo:Youtube_logo.png))]([https://www.youtube.com/watch?v=abcd1234](https://www.youtube.com/watch?v=rSKMYc1CQHE))

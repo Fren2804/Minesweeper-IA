@@ -356,8 +356,6 @@ The important thing is that I’ve conveyed the **general concept** and the appr
 
 ![Results](Minesweeper/Records.png)
 
----
-
 ## 🎥 Demo Video
 
 [![Watch the video](https://img.youtube.com/vi/Y5WTmX_FgSI/0.jpg)](https://www.youtube.com/watch?v=Y5WTmX_FgSI)

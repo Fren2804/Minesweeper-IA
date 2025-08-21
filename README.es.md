@@ -1,5 +1,7 @@
 # 🧨 Buscaminas en Python
 
+> 🇪🇸 Español | [🇬🇧 English Version](README.md)
+
 ## 📌 Descripción
 
 Este proyecto consiste en crear un bot para jugar automáticamente al clásico juego del **Buscaminas**. Existen **dos versiones del programa**:
